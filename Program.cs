@@ -1,23 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using WorldFrequency.Interfaces;
+using WorldFrequency.Models;
 
 namespace WorldFrequency
 {
-    class Program
+    class Program : IWordFrequencyAnalyzer
     {
         public static void Main()
         {
-            CalculateMostFrequentNWords();
-            //Take Sentance and Word. Will find word frequency in the world.
-            CountWordFrequncy();
+            Program program = new Program();
 
+            Console.Write("\n\nFind maximum occurring character in a string :\n");
+            Console.Write("--------------------------------------------------\n");
+            Console.Write("Input the string : ");
+            string str = Console.ReadLine();
             // Highest frequency of character in senence 
-            CalculateHighestFrequency();
+            program.CalculateHighestFrequency(str);
+
+            //Take Sentacce and and length 
+
+
+
+            Console.WriteLine("Please Enter Sentence");
+            string sentence = Console.ReadLine();
+
+            Console.WriteLine("Please enter worlds length");
+            int n = int.Parse(Console.ReadLine());
+            program.CalculateMostFrequentNWords(sentence, n);
+
+
+            Console.Write("Enter the Sentence: ");
+            string text = Console.ReadLine();
+            Console.Write("Enter the Word: ");
+            string word = Console.ReadLine();
+
+            //Take Sentance and Word. Will find word frequency in the world.
+            program.CalculateFrequencyForWord(text, word);
+
         }
 
-        public static void CalculateHighestFrequency()
+        public int CalculateHighestFrequency(string str)
         {
-            string str;
+
             int[] ch_fre = new int[255];
             int i = 0, max, l;
             int ascii;
@@ -52,36 +78,33 @@ namespace WorldFrequency
                 }
             }
             Console.Write("The Highest frequency of character '{0}' is appearing for number of times : {1} \n\n", (char)max, ch_fre[max]);
+            return ch_fre[max];
         }
 
-        public static void CountWordFrequncy()
+        public int CalculateFrequencyForWord(string text, string word)
         {
 
             Console.Write("Enter the Sentence: ");
-            string sentence = Console.ReadLine();
+            text = Console.ReadLine();
 
             Console.Write("Enter the Word: ");
-            string word = Console.ReadLine();
+            word = Console.ReadLine();
 
             int cnt = 0;
             int i = 0;
-            while ((i = sentence.IndexOf(word, i)) != -1)
+            while ((i = text.IndexOf(word, i)) != -1)
             {
                 i += word.Length;
                 cnt++;
             }
             Console.Write($"The Word {word} is appearing for number of times {cnt} ");
+            return cnt;
         }
 
-        public static void CalculateMostFrequentNWords()
+        public IEnumerable<IWordFrequency> CalculateMostFrequentNWords(string text, int n)
         {
-            Console.WriteLine("Please Enter Sentence");
-            string words = Console.ReadLine();
 
-            Console.WriteLine("Please enter worlds length");
-            int length = int.Parse(Console.ReadLine());
-
-            var orderedWords = words
+            var orderedWords = text
               .Split(' ')
               .GroupBy(x => x)
               .Select(x => new
@@ -90,15 +113,15 @@ namespace WorldFrequency
                   Count = x.Count()
               })
               .OrderByDescending(x => x.Count)
-              .Take(length);
-            var query = (from item in orderedWords select new { word = item.KeyField, count = item.Count });
-            query.ToList();
+              .Take(n);
+            var query = (from item in orderedWords select new WordFrequency { Word = item.KeyField, Frequency = item.Count });
             foreach (var item in query)
             {
-                Console.Write($"The word {item.word} is appearing for number of times {item.count} \n\n");
-
+                Console.Write($"The word {item.Word} is appearing for number of times {item.Frequency} \n\n");
             }
+            return query.ToList();
         }
+
 
     }
 }
