@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorldFrequency.Interfaces
 {
-    interface IWordFrequency
+  public  interface IWordFrequency
     {
         string Word { get; }
         int Frequency { get; }

@@ -6,7 +6,7 @@ using WorldFrequency.Models;
 
 namespace WorldFrequency
 {
-    class Program : IWordFrequencyAnalyzer
+    public class Program : IWordFrequencyAnalyzer
     {
         public static void Main()
         {
@@ -15,6 +15,7 @@ namespace WorldFrequency
             Console.Write("\n\nFind maximum occurring character in a string :\n");
             Console.Write("--------------------------------------------------\n");
             Console.Write("Input the string : ");
+
             string str = Console.ReadLine();
             // Highest frequency of character in senence 
             program.CalculateHighestFrequency(str);
@@ -51,7 +52,7 @@ namespace WorldFrequency
             Console.Write("\n\nFind maximum occurring character in a string :\n");
             Console.Write("--------------------------------------------------\n");
             Console.Write("Input the string : ");
-            str = Console.ReadLine();
+            //str = Console.ReadLine();
             l = str.Length;
 
             for (i = 0; i < 255; i++)  //Set frequency of all characters to 0
@@ -84,11 +85,11 @@ namespace WorldFrequency
         public int CalculateFrequencyForWord(string text, string word)
         {
 
-            Console.Write("Enter the Sentence: ");
-            text = Console.ReadLine();
+            //Console.Write("Enter the Sentence: ");
+            //text = Console.ReadLine();
 
-            Console.Write("Enter the Word: ");
-            word = Console.ReadLine();
+            //Console.Write("Enter the Word: ");
+            //word = Console.ReadLine();
 
             int cnt = 0;
             int i = 0;
